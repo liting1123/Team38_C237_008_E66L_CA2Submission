@@ -532,7 +532,7 @@ app.get('/orderConfirmation', async (req, res) => {
 });
 
 app.get('/addInventory', checkAuthenticated, (req, res) => {
-    res.render('AddInventory', {user: req.session.user } ); 
+    res.render('addInventory', {user: req.session.user } ); 
 });
 
 app.post('/addInventory', upload.single('Images'), (req, res) => {

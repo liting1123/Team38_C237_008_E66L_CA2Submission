@@ -401,12 +401,6 @@ app.post('/add-to-cart/:id', checkAuthenticated, (req, res) => {
         });
 });
 
-app.post('/editCart/:idmenuItems', (req,res) => {
-    const idmenuItems = req.params.id;
-     const item = req.session.cart?.find(item => item.idmenuItems === idmenuItems);
-    const sql = 'SELECT * FROM menuItems WHERE idmenuItems = ?';
-    
-})
 
 app.post('/updateCartQuantities', checkAuthenticated, (req, res) => {
     if (!req.session.cart) {

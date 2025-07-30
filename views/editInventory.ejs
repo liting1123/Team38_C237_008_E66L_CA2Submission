@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> 
+</head>
+<body style=" background-size:cover; background-image: url('https://i.pinimg.com/736x/ec/60/5d/ec605dab1eeb47cd3649ca54bc7aeb6c.jpg')">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/dashboard">Foodiess</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <% if (user && user.role === 'admin') { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/inventory">Inventory</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/addInventory">Add</a>
+            </li>
+            <% } %>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt me-1"></i>Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container mt-4">
+        <h2 class="text-center mb-4">Update Food Item</h2>
+        <% if (menuItems) { %> 
+            <form action="/editInventory/<%= menuItems.idmenuItems %>" method="POST" enctype="multipart/form-data" class="mx-auto" style="max-width: 500px;">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Food Name</label>
+                    <input type="text" class="form-control" id="name" name="name" value="<%= menuItems.name %>" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Current Image</label>
+                    <img src="/images/<%= menuItems.image %>" alt="Current Food Image" class="img-fluid border rounded p-1 d-block mx-auto" style="max-width: 150px;">
+                    <input type="hidden" name="currentImageName" value="<%= menuItems.image %>">
+                </div>
+                <div class="mb-4">
+                    <label for="imageUpload" class="form-label">Upload New Image (Optional)</label>
+                    <input class="form-control" type="file" id="imageUpload" name="image" accept="image/*">
+                </div>
+                <div class="mb-3">
+                    <label for="quantity" class="form-label">Quantity</label>
+                    <input type="number" class="form-control" id="quantity" name="quantity" value="<%= menuItems.quantity %>" min="0" step="1" required>
+                </div>
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price ($)</label>
+                    <input type="number" class="form-control" id="price" name="price" min="0" step="0.01" value="<%= menuItems.price %>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="category" class="form-label">Category</label>
+                    <input type="text" class="form-control" id="category" name="category" value="<%= menuItems.category %>" required>
+                </div>
+                <div class="d-grid">
+                  <button type="submit" class="btn btn-primary">Update Food</button>
+                </div>
+                <div class="d-grid mt-3">
+                  <a href="/inventory" class="btn btn-secondary"></i>Back to Inventory</a>
+                </div>
+            </form>
+        <% } else { %>
+            <div class="alert alert-warning text-center" role="alert">
+                No food item found for update.
+            </div>
+            <div class="d-grid"></div>
+                <button type="submit" class="btn btn-primary"></button><a href="/inventory">Back to Inventory</a>
+            </div>
+        <% } %>
+    </div>
+</body>
+</html>

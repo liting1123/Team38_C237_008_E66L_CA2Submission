@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Users</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        .admin-background {
+            background-image: url('https://i.pinimg.com/736x/ec/60/5d/ec605dab1eeb47cd3649ca54bc7aeb6c.jpg');
+            background-size: cover; 
+        }
+        .user-background {
+            background-image: url('https://i.pinimg.com/736x/d2/4c/9e/d24c9eba4ebc39ed95933d1ab85563be.jpg');
+            background-size: cover;
+        }
+    </style>
+</head>
+<body class="bg-light <%= user && user.role === 'admin' ? 'admin-background' : (user && user.role === 'user' ? 'user-background' : '') %>">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/dashboard">Foodiess</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/dashboard">Dashboard</a>
+            </li>
+            <% if (user && user.role === 'admin') { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/inventory">Inventory</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/viewUsers">View Users</a>
+            </li>
+            <% } %>
+            <% if (user && user.role === 'user') { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/menu">Menu</a>
+            </li>
+            <% } %>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt me-1"></i>Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+<style>
+  .user-table{
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    margin-top:20px;
+  }
+
+  .user-table th, .user-table td{
+    border: 1px solid;
+    padding: 10px;
+    min-width: 100px;
+    vertical-align: top;
+    word-break: break-word;
+  }
+</style>
+<div class="container mt-7">
+    <h2>User Management</h2>
+    <% if (users.length === 0){%>
+        <p>No user found</p>
+    <% }else {%>
+    <table class="user-table">
+        <thead>
+            <tr>
+                <th width="50">ID</th>
+                <th width="100">Username</th>
+                <th width="100">Email</th>
+                <th width="100">Contact Number</th>
+                <th width="100">Address</th>
+                <th width="100">Role</th>
+                <th width="100">Edit</th>
+                <th width="100">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach(user => { %>
+                <tr>
+                    <td width="50"><%= user.id %></td>
+                    <td width="100"><%= user.username %></td>
+                    <td width="200"><%= user.email %></td>
+                    <td width="100"><%= user.contact %></td>
+                    <td width="100"><%= user.address %></td>
+                    <td width="100"><%= user.role %></td>
+                    <td><a href="/editUser/<%= user.id%>"><%= 'Edit' %></td>
+                    <td><a href="/deleteUser/<%= user.id %>" onclick="return confirm('Are you sure you want to delete this User?')">Delete</a></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    <% } %>
+<a href="/dashboard" class="btn btn-secondary mt-3">Back to main</a>
+</div>
+
+</div>

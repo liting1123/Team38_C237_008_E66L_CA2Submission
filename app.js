@@ -662,7 +662,7 @@ app.post('/processPayment', checkAuthenticated, (req, res) => {
         const totalAmount = results[0].total_amount;
         req.session.cart = [];
 
-        res.render('paymentSuccess', {
+        res.render('PaymentSuccess', {
             user: req.session.user,
             amount: totalAmount,
             orderId: idorder
